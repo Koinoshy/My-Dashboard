@@ -56,7 +56,7 @@
             font-weight: 600;
         }
 
-        /* --- SIDEBAR --- */
+        /* --- SIDEBAR NAVIGATION --- */
         .sidebar {
             width: var(--sidebar-width);
             background-color: var(--surface);
@@ -96,6 +96,7 @@
             font-weight: 500;
             transition: var(--transition);
             cursor: pointer;
+            user-select: none;
         }
 
         .nav-item:hover {
@@ -103,6 +104,7 @@
             color: var(--text-main);
         }
 
+        /* Trang thai Active cua Menu Item */
         .nav-item.active {
             background-color: var(--accent-light);
             color: var(--accent);
@@ -117,12 +119,12 @@
             max-width: 1400px;
         }
 
-        /* --- HEADER & HERO --- */
+        /* --- HEADER --- */
         .top-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            margin-bottom: 3rem;
+            margin-bottom: 2.5rem;
         }
 
         .greeting-section .date {
@@ -163,7 +165,22 @@
             letter-spacing: 0.5px;
         }
 
-        /* --- GRID SYSTEM --- */
+        /* --- TAB CONTENT DISPLAY LOGIC --- */
+        .tab-content {
+            display: none; /* An tat ca cac tab mac dinh */
+        }
+
+        .tab-content.active {
+            display: block; /* Chi hien thi tab co class active */
+            animation: fadeIn 220ms ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- GRID & CARDS --- */
         .dashboard-grid {
             display: grid;
             grid-template-columns: repeat(12, 1fr);
@@ -193,10 +210,10 @@
         }
 
         /* Span Helpers */
-        .col-span-8 { grid-column: span 8; }
-        .col-span-4 { grid-column: span 4; }
-        .col-span-6 { grid-column: span 6; }
         .col-span-12 { grid-column: span 12; }
+        .col-span-8 { grid-column: span 8; }
+        .col-span-6 { grid-column: span 6; }
+        .col-span-4 { grid-column: span 4; }
 
         /* --- UI COMPONENTS --- */
         input, select {
@@ -277,16 +294,12 @@
             gap: 0.5rem;
         }
 
-        /* --- SPECIFIC WIDGETS --- */
-        
-        /* Schedule List */
+        /* --- LISTS & TABLES --- */
         .list-container {
             list-style: none;
             display: flex;
             flex-direction: column;
             gap: 0.75rem;
-            max-height: 300px;
-            overflow-y: auto;
         }
 
         .list-item {
@@ -319,7 +332,6 @@
             border-radius: 4px;
         }
 
-        /* GPA Table */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -336,7 +348,7 @@
             color: var(--text-muted);
             font-weight: 500;
         }
-        
+
         .gpa-summary {
             display: flex;
             justify-content: space-between;
@@ -344,7 +356,7 @@
             padding-top: 1.5rem;
             border-top: 1px dashed var(--border);
         }
-        
+
         .gpa-score {
             font-size: 1.5rem;
             color: var(--accent);
@@ -353,18 +365,18 @@
 
         /* Pomodoro */
         .timer-display {
-            font-size: 4rem;
+            font-size: 3.5rem;
             font-family: 'Inter', sans-serif;
             font-weight: 300;
             text-align: center;
             color: var(--text-main);
-            margin: 1.5rem 0;
+            margin: 1rem 0;
             font-variant-numeric: tabular-nums;
         }
-        
+
         .timer-mode {
             text-align: center;
-            font-size: 0.875rem;
+            font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 2px;
             color: var(--accent);
@@ -388,12 +400,12 @@
             transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Extracurricular Portfolio */
+        /* Timeline */
         .timeline-item {
             border-left: 2px solid var(--border);
-            padding-left: 1.5rem;
+            padding-left: 1.25rem;
             position: relative;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
         }
         .timeline-item::before {
             content: '';
@@ -406,13 +418,22 @@
             background: var(--accent);
         }
         .timeline-title { font-weight: 500; margin-bottom: 0.25rem; }
-        .timeline-desc { font-size: 0.875rem; color: var(--text-muted); }
+
+        /* Quick Action Jump Cards */
+        .quick-card {
+            padding: 1.25rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--surface);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 1rem;
+        }
 
         /* Responsive */
         @media (max-width: 1024px) {
-            .col-span-8 { grid-column: span 12; }
-            .col-span-4 { grid-column: span 12; }
-            .col-span-6 { grid-column: span 12; }
+            .col-span-8, .col-span-6, .col-span-4 { grid-column: span 12; }
             .main-content { padding: 2rem; }
         }
 
@@ -429,36 +450,48 @@
             .nav-list { flex-direction: row; overflow-x: auto; padding-bottom: 0.5rem; }
             .nav-item { white-space: nowrap; }
             .main-content { margin-left: 0; padding: 1.5rem; }
-            .hero-stats { display: none; /* Ẩn bớt số liệu phụ trên mobile cho gọn */ }
+            .hero-stats { display: none; }
             .input-group { flex-direction: column; }
         }
     </style>
 </head>
 <body>
 
-    <!-- SIDEBAR -->
+    <!-- SIDEBAR NAVIGATION MENU -->
     <aside class="sidebar">
         <div class="logo">
             <i data-lucide="book-open-check"></i>
             <span class="serif">Workspace</span>
         </div>
         <ul class="nav-list">
-            <a href="#" class="nav-item active"><i data-lucide="layout-dashboard" size="18"></i> Tổng quan</a>
-            <a href="#schedule" class="nav-item"><i data-lucide="calendar" size="18"></i> Lịch trình</a>
-            <a href="#academic" class="nav-item"><i data-lucide="graduation-cap" size="18"></i> Học thuật</a>
-            <a href="#portfolio" class="nav-item"><i data-lucide="award" size="18"></i> Portfolio</a>
+            <li class="nav-item active" data-tab="tab-overview">
+                <i data-lucide="layout-dashboard" size="18"></i>
+                <span>Tổng quan</span>
+            </li>
+            <li class="nav-item" data-tab="tab-schedule">
+                <i data-lucide="calendar" size="18"></i>
+                <span>Lịch trình</span>
+            </li>
+            <li class="nav-item" data-tab="tab-academic">
+                <i data-lucide="graduation-cap" size="18"></i>
+                <span>Học thuật</span>
+            </li>
+            <li class="nav-item" data-tab="tab-portfolio">
+                <i data-lucide="award" size="18"></i>
+                <span>Portfolio</span>
+            </li>
         </ul>
     </aside>
 
-    <!-- MAIN CONTENT -->
+    <!-- MAIN CONTENT AREA -->
     <main class="main-content">
         
-        <!-- HEADER -->
+        <!-- HEADER TRONG CÁC TAB -->
         <header class="top-header">
             <div class="greeting-section">
                 <div class="date" id="currentDate">Đang cập nhật...</div>
                 <h1 id="greetingMsg" class="serif">Personal Command Center</h1>
-                <p style="color: var(--text-muted); margin-top: 0.5rem;">Không gian lưu trữ bài vở và dấu ấn y khoa.</p>
+                <p style="color: var(--text-muted); margin-top: 0.25rem;">Hệ thống quản lý học tập và dấu ấn cá nhân.</p>
             </div>
             
             <div class="hero-stats">
@@ -477,415 +510,62 @@
             </div>
         </header>
 
-        <!-- DASHBOARD GRID -->
-        <div class="dashboard-grid">
-            
-            <!-- WIDGET 1: SCHEDULE -->
-            <div class="card col-span-8" id="schedule">
-                <div class="card-header">
-                    <h2 class="card-title serif">Upcoming Schedule</h2>
-                </div>
-                <form id="todoForm" class="input-group">
-                    <input type="date" id="todoDate" required style="flex: 1;">
-                    <input type="text" id="todoText" placeholder="Tên công việc, lịch thi, lịch trực..." required style="flex: 2;">
-                    <button type="submit" class="btn-primary">Thêm</button>
-                </form>
-                <div id="todoEmpty" class="empty-state">
-                    <i data-lucide="calendar-check" size="32" color="var(--border)"></i>
-                    <p>Hiện không có lịch trình nào sắp tới.</p>
-                </div>
-                <ul class="list-container" id="todoList"></ul>
-            </div>
-
-            <!-- WIDGET 2: POMODORO -->
-            <div class="card col-span-4">
-                <div class="card-header">
-                    <h2 class="card-title serif">Focus Session</h2>
-                    <button id="modeToggleBtn" class="btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="togglePomodoroMode()">Nghỉ ngơi</button>
-                </div>
-                <div class="timer-mode" id="timerModeText">Đang học (25 phút)</div>
-                <div class="timer-display" id="timerDisplay">25:00</div>
-                <div style="display: flex; gap: 0.5rem; justify-content: center;">
-                    <button id="startTimerBtn" class="btn-primary" onclick="startTimer()"><i data-lucide="play" size="16"></i> Bắt đầu</button>
-                    <button onclick="pauseTimer()" class="btn-secondary"><i data-lucide="pause" size="16"></i> Dừng</button>
-                    <button onclick="resetTimer()" class="btn-secondary"><i data-lucide="rotate-ccw" size="16"></i> Reset</button>
-                </div>
-            </div>
-
-            <!-- WIDGET 3: ACADEMIC PERFORMANCE (GPA) -->
-            <div class="card col-span-8" id="academic">
-                <div class="card-header">
-                    <h2 class="card-title serif">Academic Performance</h2>
-                </div>
-                <form id="gradeForm" class="input-group">
-                    <input type="text" id="subjectName" placeholder="Tên môn học (VD: Giải phẫu học)" required style="flex: 2;">
-                    <input type="number" id="subjectCredits" placeholder="Tín chỉ" min="1" required style="flex: 1;">
-                    <input type="number" id="subjectScore" placeholder="Điểm (10.0)" min="0" max="10" step="0.1" required style="flex: 1;">
-                    <button type="submit" class="btn-primary">Lưu</button>
-                </form>
+        <!-- TAB 1: TỔNG QUAN (MẶC ĐỊNH HIỂN THỊ) -->
+        <div id="tab-overview" class="tab-content active">
+            <div class="dashboard-grid">
                 
-                <div id="gradeEmpty" class="empty-state">
-                    <i data-lucide="book-x" size="32" color="var(--border)"></i>
-                    <p>Chưa có dữ liệu môn học.</p>
-                </div>
-                
-                <table id="gradeTable" style="display: none;">
-                    <thead>
-                        <tr>
-                            <th>Môn học</th>
-                            <th>Tín chỉ</th>
-                            <th>Hệ 10</th>
-                            <th style="width: 50px;"></th>
-                        </tr>
-                    </thead>
-                    <tbody id="gradeList"></tbody>
-                </table>
-                
-                <div class="gpa-summary">
-                    <div>
-                        <div style="color: var(--text-muted); font-size: 0.875rem;">Tổng số tín chỉ</div>
-                        <div style="font-weight: 600; font-size: 1.25rem;" id="totalCredits">0</div>
-                    </div>
-                    <div style="text-align: right;">
-                        <div style="color: var(--text-muted); font-size: 0.875rem;">GPA (Hệ 10)</div>
-                        <div class="gpa-score" id="gpaScore">0.00</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- WIDGET 4 & 5 CONTAINER -->
-            <div class="col-span-4" style="display: flex; flex-direction: column; gap: 1.5rem;" id="portfolio">
-                
-                <!-- TRAINING POINTS -->
-                <div class="card">
-                    <div class="card-header" style="margin-bottom: 0.5rem;">
-                        <h2 class="card-title serif">Personal Development</h2>
-                    </div>
-                    <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1rem;">Tiến độ điểm rèn luyện</p>
-                    
-                    <div class="input-group">
-                        <input type="number" id="trainingPointsInput" placeholder="Nhập điểm rèn luyện..." min="0" max="100">
-                        <button onclick="updateTrainingPoints()" class="btn-secondary">Lưu</button>
-                    </div>
-                    
-                    <div class="progress-bg">
-                        <div class="progress-fill" id="trainingProgressBar"></div>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; font-size: 0.875rem; font-weight: 500;">
-                        <span>0</span>
-                        <span id="trainingPointsText" style="color: var(--accent);">0/100</span>
-                    </div>
-                </div>
-
-                <!-- EXTRACURRICULAR -->
-                <div class="card" style="flex: 1;">
+                <!-- Focus Pomodoro Timer -->
+                <div class="card col-span-4">
                     <div class="card-header">
-                        <h2 class="card-title serif">Extracurricular</h2>
+                        <h2 class="card-title serif">Focus Session</h2>
+                        <button id="modeToggleBtn" class="btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="togglePomodoroMode()">Nghỉ ngơi</button>
                     </div>
-                    <form id="achievementForm" class="input-group">
-                        <input type="text" id="achievementInput" placeholder="Sự kiện, dự án, CLB..." required>
-                        <button type="submit" class="btn-primary">+</button>
-                    </form>
-                    
-                    <div id="achieveEmpty" class="empty-state">
-                        <p>Chưa có dấu ấn nào được ghi nhận.</p>
+                    <div class="timer-mode" id="timerModeText">Đang học (25 phút)</div>
+                    <div class="timer-display" id="timerDisplay">25:00</div>
+                    <div style="display: flex; gap: 0.5rem; justify-content: center;">
+                        <button id="startTimerBtn" class="btn-primary" onclick="startTimer()"><i data-lucide="play" size="16"></i> Bắt đầu</button>
+                        <button onclick="pauseTimer()" class="btn-secondary"><i data-lucide="pause" size="16"></i> Dừng</button>
+                        <button onclick="resetTimer()" class="btn-secondary"><i data-lucide="rotate-ccw" size="16"></i> Reset</button>
                     </div>
-
-                    <div id="achievementList" style="margin-top: 1rem;"></div>
                 </div>
-            </div>
 
-        </div>
-    </main>
+                <!-- Preview Lịch trình gần nhất -->
+                <div class="card col-span-8">
+                    <div class="card-header">
+                        <h2 class="card-title serif">Lịch trình sắp tới</h2>
+                        <button class="btn-secondary" onclick="switchTab('tab-schedule')">Xem tất cả →</button>
+                    </div>
+                    <div id="overviewScheduleEmpty" class="empty-state">
+                        <i data-lucide="calendar-check" size="32" color="var(--border)"></i>
+                        <p>Không có deadline nào sắp tới.</p>
+                    </div>
+                    <ul class="list-container" id="overviewScheduleList"></ul>
+                </div>
 
-    <!-- CORE LOGIC JAVASCRIPT -->
-    <script>
-        // Khởi tạo thư viện Icon
-        lucide.createIcons();
-
-        // --- HỆ THỐNG HEADER THỜI GIAN THỰC ---
-        function updateHeader() {
-            const now = new Date();
-            
-            // Render Ngày tiếng Việt
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            document.getElementById('currentDate').innerText = now.toLocaleDateString('vi-VN', options);
-            
-            // Lời chào theo buổi
-            const hour = now.getHours();
-            let greeting = "Chào buổi tối";
-            if (hour >= 5 && hour < 12) greeting = "Chào buổi sáng";
-            else if (hour >= 12 && hour < 18) greeting = "Chào buổi chiều";
-            document.getElementById('greetingMsg').innerText = `${greeting}, Khôi.`;
-        }
-        updateHeader();
-
-        // --- QUẢN LÝ DỮ LIỆU & STATE TỔNG QUAN ---
-        let subjects = JSON.parse(localStorage.getItem('subjects')) || [];
-        let trainingPoints = localStorage.getItem('trainingPoints') || 0;
-        let achievements = JSON.parse(localStorage.getItem('achievements')) || [];
-        let todos = JSON.parse(localStorage.getItem('todos')) || [];
-
-        function updateHeroStats() {
-            // Count upcoming deadlines
-            const now = new Date();
-            now.setHours(0,0,0,0);
-            const upcoming = todos.filter(t => new Date(t.date) >= now).length;
-            
-            document.getElementById('statDeadlines').innerText = upcoming;
-            document.getElementById('statSubjects').innerText = subjects.length;
-            document.getElementById('statPoints').innerText = `${trainingPoints}%`;
-        }
-
-        // --- WIDGET LỊCH TRÌNH ---
-        const todoForm = document.getElementById('todoForm');
-        const todoListUI = document.getElementById('todoList');
-        const todoEmpty = document.getElementById('todoEmpty');
-
-        function renderTodos() {
-            todoListUI.innerHTML = '';
-            
-            if (todos.length === 0) {
-                todoEmpty.style.display = 'flex';
-            } else {
-                todoEmpty.style.display = 'none';
-                
-                // Sort by nearest date
-                todos.sort((a, b) => new Date(a.date) - new Date(b.date));
-                
-                todos.forEach((task, index) => {
-                    let dateObj = new Date(task.date);
-                    let formattedDate = `${dateObj.getDate().toString().padStart(2, '0')}/${(dateObj.getMonth() + 1).toString().padStart(2, '0')}`;
-                    
-                    // Check overdue
-                    let today = new Date();
-                    today.setHours(0,0,0,0);
-                    let isOverdue = dateObj < today;
-                    let textStyle = isOverdue ? 'color: var(--danger);' : '';
-                    let dateBg = isOverdue ? 'background: #FDF2F2; color: var(--danger);' : '';
-
-                    todoListUI.innerHTML += `
-                        <li class="list-item">
-                            <div class="task-info">
-                                <span class="task-date" style="${dateBg}">${formattedDate}</span> 
-                                <span style="${textStyle}">${task.text}</span>
-                            </div>
-                            <button class="btn-icon" onclick="deleteTodo(${index})"><i data-lucide="trash-2" size="18"></i></button>
-                        </li>
-                    `;
-                });
-                lucide.createIcons();
-            }
-            localStorage.setItem('todos', JSON.stringify(todos));
-            updateHeroStats();
-        }
-
-        todoForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const date = document.getElementById('todoDate').value;
-            const text = document.getElementById('todoText').value;
-            todos.push({ date, text });
-            renderTodos();
-            todoForm.reset();
-        });
-
-        function deleteTodo(index) {
-            todos.splice(index, 1);
-            renderTodos();
-        }
-
-        // --- WIDGET POMODORO BỀN VỮNG (Không trễ do tab inactive) ---
-        let timerInterval;
-        let pomodoroDuration = 25 * 60; // 25 min default
-        let timeLeft = pomodoroDuration; 
-        let isRunning = false;
-        let expectedEndTime = 0;
-        let isWorkMode = true;
-
-        function updateTimerDisplay() {
-            const m = Math.floor(timeLeft / 60);
-            const s = timeLeft % 60;
-            document.getElementById('timerDisplay').innerText = 
-                `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-        }
-
-        function togglePomodoroMode() {
-            pauseTimer();
-            isWorkMode = !isWorkMode;
-            pomodoroDuration = isWorkMode ? 25 * 60 : 5 * 60;
-            timeLeft = pomodoroDuration;
-            
-            document.getElementById('timerModeText').innerText = isWorkMode ? "Đang học (25 phút)" : "Nghỉ ngơi (5 phút)";
-            document.getElementById('modeToggleBtn').innerText = isWorkMode ? "Nghỉ ngơi" : "Học tập";
-            updateTimerDisplay();
-        }
-
-        function timerTick() {
-            const now = Date.now();
-            timeLeft = Math.round((expectedEndTime - now) / 1000);
-            
-            if (timeLeft <= 0) {
-                clearInterval(timerInterval);
-                timeLeft = 0;
-                isRunning = false;
-                document.getElementById('startTimerBtn').style.display = 'inline-flex';
-                alert(isWorkMode ? "Đã xong phiên học! Nghỉ ngơi thôi." : "Hết giờ nghỉ! Quay lại học nhé.");
-                togglePomodoroMode(); // Auto switch
-            }
-            updateTimerDisplay();
-        }
-
-        function startTimer() {
-            if (!isRunning) {
-                isRunning = true;
-                document.getElementById('startTimerBtn').style.display = 'none';
-                expectedEndTime = Date.now() + (timeLeft * 1000);
-                timerInterval = setInterval(timerTick, 1000);
-            }
-        }
-
-        function pauseTimer() {
-            if (isRunning) {
-                clearInterval(timerInterval);
-                isRunning = false;
-                document.getElementById('startTimerBtn').style.display = 'inline-flex';
-            }
-        }
-
-        function resetTimer() {
-            pauseTimer();
-            timeLeft = pomodoroDuration;
-            updateTimerDisplay();
-        }
-
-        // --- WIDGET GPA ---
-        const gradeForm = document.getElementById('gradeForm');
-        const gradeList = document.getElementById('gradeList');
-        const gradeTable = document.getElementById('gradeTable');
-        const gradeEmpty = document.getElementById('gradeEmpty');
-        
-        function renderSubjects() {
-            gradeList.innerHTML = '';
-            let totalCredits = 0;
-            let totalWeightedScore = 0;
-
-            if (subjects.length === 0) {
-                gradeTable.style.display = 'none';
-                gradeEmpty.style.display = 'flex';
-            } else {
-                gradeTable.style.display = 'table';
-                gradeEmpty.style.display = 'none';
-                
-                subjects.forEach((sub, index) => {
-                    totalCredits += sub.credits;
-                    totalWeightedScore += (sub.credits * sub.score);
-                    gradeList.innerHTML += `
-                        <tr>
-                            <td style="font-weight: 500;">${sub.name}</td>
-                            <td>${sub.credits}</td>
-                            <td>${sub.score.toFixed(1)}</td>
-                            <td style="text-align: right;">
-                                <button class="btn-icon" onclick="deleteSubject(${index})"><i data-lucide="trash-2" size="16"></i></button>
-                            </td>
-                        </tr>
-                    `;
-                });
-                lucide.createIcons();
-            }
-
-            document.getElementById('totalCredits').innerText = totalCredits;
-            document.getElementById('gpaScore').innerText = totalCredits > 0 ? (totalWeightedScore / totalCredits).toFixed(2) : '0.00';
-            
-            localStorage.setItem('subjects', JSON.stringify(subjects));
-            updateHeroStats();
-        }
-
-        gradeForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const name = document.getElementById('subjectName').value;
-            const credits = parseFloat(document.getElementById('subjectCredits').value);
-            const score = parseFloat(document.getElementById('subjectScore').value);
-            subjects.push({ name, credits, score });
-            renderSubjects();
-            gradeForm.reset();
-        });
-
-        function deleteSubject(index) {
-            subjects.splice(index, 1);
-            renderSubjects();
-        }
-
-        // --- WIDGET ĐIỂM RÈN LUYỆN ---
-        function renderTrainingPoints() {
-            const progressFill = document.getElementById('trainingProgressBar');
-            const pointsText = document.getElementById('trainingPointsText');
-            let percentage = (trainingPoints / 100) * 100;
-            
-            progressFill.style.width = (percentage > 100 ? 100 : percentage) + '%';
-            pointsText.innerText = trainingPoints + '/100';
-            document.getElementById('trainingPointsInput').value = trainingPoints;
-            updateHeroStats();
-        }
-
-        function updateTrainingPoints() {
-            let newPoints = parseFloat(document.getElementById('trainingPointsInput').value);
-            if (!isNaN(newPoints)) {
-                if (newPoints > 100) newPoints = 100;
-                if (newPoints < 0) newPoints = 0;
-                trainingPoints = newPoints;
-                localStorage.setItem('trainingPoints', trainingPoints);
-                renderTrainingPoints();
-            }
-        }
-
-        // --- WIDGET EXTRACURRICULAR ---
-        const achievementForm = document.getElementById('achievementForm');
-        const achievementListUI = document.getElementById('achievementList');
-        const achieveEmpty = document.getElementById('achieveEmpty');
-
-        function renderAchievements() {
-            achievementListUI.innerHTML = '';
-            
-            if (achievements.length === 0) {
-                achieveEmpty.style.display = 'block';
-            } else {
-                achieveEmpty.style.display = 'none';
-                // Đảo ngược mảng để cái mới nhất hiện lên trên
-                [...achievements].reverse().forEach((ach, reversedIndex) => {
-                    let realIndex = achievements.length - 1 - reversedIndex;
-                    achievementListUI.innerHTML += `
-                        <div class="timeline-item">
-                            <div class="timeline-title" style="display: flex; justify-content: space-between; align-items: start;">
-                                <span>${ach}</span>
-                                <button class="btn-icon" style="padding: 0; margin-left: 10px;" onclick="deleteAchievement(${realIndex})"><i data-lucide="x" size="14"></i></button>
-                            </div>
+                <!-- Quick Status Cards -->
+                <div class="card col-span-6">
+                    <div class="card-header">
+                        <h2 class="card-title serif">Kết quả học tập</h2>
+                        <button class="btn-secondary" onclick="switchTab('tab-academic')">Chi tiết →</button>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div style="color: var(--text-muted); font-size: 0.875rem;">Điểm trung bình tích lũy</div>
+                            <div class="gpa-score" id="overviewGpa">0.00</div>
                         </div>
-                    `;
-                });
-                lucide.createIcons();
-            }
-            localStorage.setItem('achievements', JSON.stringify(achievements));
-        }
+                        <div style="text-align: right;">
+                            <div style="color: var(--text-muted); font-size: 0.875rem;">Tổng tín chỉ</div>
+                            <div style="font-size: 1.25rem; font-weight: 600;" id="overviewCredits">0</div>
+                        </div>
+                    </div>
+                </div>
 
-        achievementForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            achievements.push(document.getElementById('achievementInput').value);
-            renderAchievements();
-            achievementForm.reset();
-        });
-
-        function deleteAchievement(index) {
-            achievements.splice(index, 1);
-            renderAchievements();
-        }
-
-        // Khởi chạy Init
-        renderTodos();
-        renderSubjects();
-        renderTrainingPoints();
-        renderAchievements();
-        updateTimerDisplay();
-
-    </script>
-</body>
-</html>
+                <div class="card col-span-6">
+                    <div class="card-header">
+                        <h2 class="card-title serif">Rèn luyện & Dấu ấn</h2>
+                        <button class="btn-secondary" onclick="switchTab('tab-portfolio')">Quản lý →</button>
+                    </div>
+                    <div>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.875rem; margin-bottom: 0.5rem;">
+                            <span>Điểm rèn luyện hiện tại</span>
+                            <span id="overviewPointsText
