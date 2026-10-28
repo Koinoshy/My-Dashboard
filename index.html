@@ -568,4 +568,466 @@
                     <div>
                         <div style="display: flex; justify-content: space-between; font-size: 0.875rem; margin-bottom: 0.5rem;">
                             <span>Điểm rèn luyện hiện tại</span>
-                            <span id="overviewPointsText
+                            <span id="overviewPointsText" style="font-weight: 600; color: var(--accent);">0/100</span>
+                        </div>
+                        <div class="progress-bg" style="margin: 0;">
+                            <div class="progress-fill" id="overviewProgressBar"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- TAB 2: LỊCH TRÌNH (MẶC ĐỊNH ẨN) -->
+        <div id="tab-schedule" class="tab-content">
+            <div class="card col-span-12">
+                <div class="card-header">
+                    <h2 class="card-title serif">Quản lý Lịch trình & Deadline</h2>
+                </div>
+                <form id="todoForm" class="input-group">
+                    <input type="date" id="todoDate" required style="flex: 1;">
+                    <input type="text" id="todoText" placeholder="Tên công việc, lịch thi, ca trực lâm sàng..." required style="flex: 2;">
+                    <button type="submit" class="btn-primary"><i data-lucide="plus" size="16"></i> Thêm mới</button>
+                </form>
+                <div id="todoEmpty" class="empty-state">
+                    <i data-lucide="calendar-check" size="32" color="var(--border)"></i>
+                    <p>Chưa có lịch trình nào được lưu.</p>
+                </div>
+                <ul class="list-container" id="todoList" style="margin-top: 1rem;"></ul>
+            </div>
+        </div>
+
+        <!-- TAB 3: HỌC THUẬT (MẶC ĐỊNH ẨN) -->
+        <div id="tab-academic" class="tab-content">
+            <div class="card col-span-12">
+                <div class="card-header">
+                    <h2 class="card-title serif">Bảng điểm & Kết quả Học tập (GPA)</h2>
+                </div>
+                <form id="gradeForm" class="input-group">
+                    <input type="text" id="subjectName" placeholder="Tên môn học (VD: Giải phẫu ngực, Vi sinh...)" required style="flex: 2;">
+                    <input type="number" id="subjectCredits" placeholder="Số tín chỉ" min="1" required style="flex: 1;">
+                    <input type="number" id="subjectScore" placeholder="Điểm (Hệ 10)" min="0" max="10" step="0.1" required style="flex: 1;">
+                    <button type="submit" class="btn-primary"><i data-lucide="plus" size="16"></i> Lưu môn</button>
+                </form>
+                
+                <div id="gradeEmpty" class="empty-state">
+                    <i data-lucide="book-x" size="32" color="var(--border)"></i>
+                    <p>Chưa có dữ liệu môn học nào.</p>
+                </div>
+                
+                <table id="gradeTable" style="display: none; margin-top: 1rem;">
+                    <thead>
+                        <tr>
+                            <th>Môn học</th>
+                            <th>Tín chỉ</th>
+                            <th>Hệ 10</th>
+                            <th style="width: 50px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="gradeList"></tbody>
+                </table>
+                
+                <div class="gpa-summary">
+                    <div>
+                        <div style="color: var(--text-muted); font-size: 0.875rem;">Tổng số tín chỉ đã tích lũy</div>
+                        <div style="font-weight: 600; font-size: 1.25rem;" id="totalCredits">0</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="color: var(--text-muted); font-size: 0.875rem;">GPA Tích lũy (Hệ 10)</div>
+                        <div class="gpa-score" id="gpaScore">0.00</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: PORTFOLIO (MẶC ĐỊNH ẨN) -->
+        <div id="tab-portfolio" class="tab-content">
+            <div class="dashboard-grid">
+                
+                <!-- Điểm rèn luyện -->
+                <div class="card col-span-6">
+                    <div class="card-header">
+                        <h2 class="card-title serif">Điểm Rèn Luyện</h2>
+                    </div>
+                    <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1rem;">Cập nhật điểm rèn luyện trong học kỳ</p>
+                    
+                    <div class="input-group">
+                        <input type="number" id="trainingPointsInput" placeholder="Nhập điểm rèn luyện..." min="0" max="100">
+                        <button onclick="updateTrainingPoints()" class="btn-primary">Cập nhật</button>
+                    </div>
+                    
+                    <div class="progress-bg">
+                        <div class="progress-fill" id="trainingProgressBar"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 0.875rem; font-weight: 500;">
+                        <span>0</span>
+                        <span id="trainingPointsText" style="color: var(--accent);">0/100</span>
+                    </div>
+                </div>
+
+                <!-- Dấu ấn ngoại khóa -->
+                <div class="card col-span-6">
+                    <div class="card-header">
+                        <h2 class="card-title serif">Hoạt động & Dấu ấn</h2>
+                    </div>
+                    <form id="achievementForm" class="input-group">
+                        <input type="text" id="achievementInput" placeholder="Dự án, CLB, sự kiện ngoại khóa..." required>
+                        <button type="submit" class="btn-primary">Lưu</button>
+                    </form>
+                    
+                    <div id="achieveEmpty" class="empty-state">
+                        <p>Chưa có dấu ấn nào được ghi nhận.</p>
+                    </div>
+
+                    <div id="achievementList" style="margin-top: 1rem;"></div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- CORE JAVASCRIPT LOGIC -->
+    <script>
+        // Khởi tạo Icon
+        lucide.createIcons();
+
+        // --- 1. XỬ LÝ CHUYỂN TAB (TAB NAVIGATION LOGIC) ---
+        const navItems = document.querySelectorAll('.nav-item');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        function switchTab(targetTabId) {
+            // Xóa class active ở tất cả nav-item
+            navItems.forEach(item => {
+                if (item.getAttribute('data-tab') === targetTabId) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+
+            // Ẩn tất cả thẻ tab-content và chỉ hiện tab được chọn
+            tabContents.forEach(tab => {
+                if (tab.id === targetTabId) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
+
+            // Re-render icon
+            lucide.createIcons();
+        }
+
+        // Đăng ký sự kiện Click cho menu
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const targetTab = this.getAttribute('data-tab');
+                switchTab(targetTab);
+            });
+        });
+
+        // --- 2. HEADER THỜI GIAN THỰC ---
+        function updateHeader() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('currentDate').innerText = now.toLocaleDateString('vi-VN', options);
+            
+            const hour = now.getHours();
+            let greeting = "Chào buổi tối";
+            if (hour >= 5 && hour < 12) greeting = "Chào buổi sáng";
+            else if (hour >= 12 && hour < 18) greeting = "Chào buổi chiều";
+            document.getElementById('greetingMsg').innerText = `${greeting}, Khôi.`;
+        }
+        updateHeader();
+
+        // --- 3. QUẢN LÝ DỮ LIỆU & STATE ---
+        let subjects = JSON.parse(localStorage.getItem('subjects')) || [];
+        let trainingPoints = localStorage.getItem('trainingPoints') || 0;
+        let achievements = JSON.parse(localStorage.getItem('achievements')) || [];
+        let todos = JSON.parse(localStorage.getItem('todos')) || [];
+
+        function updateHeroStats() {
+            const now = new Date();
+            now.setHours(0,0,0,0);
+            const upcoming = todos.filter(t => new Date(t.date) >= now).length;
+            
+            document.getElementById('statDeadlines').innerText = upcoming;
+            document.getElementById('statSubjects').innerText = subjects.length;
+            document.getElementById('statPoints').innerText = `${trainingPoints}%`;
+        }
+
+        // --- 4. LỊCH TRÌNH & DEADLINE ---
+        const todoForm = document.getElementById('todoForm');
+        const todoListUI = document.getElementById('todoList');
+        const todoEmpty = document.getElementById('todoEmpty');
+        
+        const overviewScheduleList = document.getElementById('overviewScheduleList');
+        const overviewScheduleEmpty = document.getElementById('overviewScheduleEmpty');
+
+        function renderTodos() {
+            todoListUI.innerHTML = '';
+            overviewScheduleList.innerHTML = '';
+            
+            if (todos.length === 0) {
+                todoEmpty.style.display = 'flex';
+                overviewScheduleEmpty.style.display = 'flex';
+            } else {
+                todoEmpty.style.display = 'none';
+                overviewScheduleEmpty.style.display = 'none';
+                
+                // Sắp xếp ngày gần nhất lên đầu
+                todos.sort((a, b) => new Date(a.date) - new Date(b.date));
+                
+                todos.forEach((task, index) => {
+                    let dateObj = new Date(task.date);
+                    let formattedDate = `${dateObj.getDate().toString().padStart(2, '0')}/${(dateObj.getMonth() + 1).toString().padStart(2, '0')}`;
+                    
+                    let today = new Date();
+                    today.setHours(0,0,0,0);
+                    let isOverdue = dateObj < today;
+                    let textStyle = isOverdue ? 'color: var(--danger);' : '';
+                    let dateBg = isOverdue ? 'background: #FDF2F2; color: var(--danger);' : '';
+
+                    const itemHTML = `
+                        <li class="list-item">
+                            <div class="task-info">
+                                <span class="task-date" style="${dateBg}">${formattedDate}</span> 
+                                <span style="${textStyle}">${task.text}</span>
+                            </div>
+                            <button class="btn-icon" onclick="deleteTodo(${index})"><i data-lucide="trash-2" size="18"></i></button>
+                        </li>
+                    `;
+                    
+                    todoListUI.innerHTML += itemHTML;
+                    if (index < 3) { // Chỉ hiện tối đa 3 cái ở trang Tổng quan
+                        overviewScheduleList.innerHTML += itemHTML;
+                    }
+                });
+                lucide.createIcons();
+            }
+            localStorage.setItem('todos', JSON.stringify(todos));
+            updateHeroStats();
+        }
+
+        todoForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const date = document.getElementById('todoDate').value;
+            const text = document.getElementById('todoText').value;
+            todos.push({ date, text });
+            renderTodos();
+            todoForm.reset();
+        });
+
+        function deleteTodo(index) {
+            todos.splice(index, 1);
+            renderTodos();
+        }
+
+        // --- 5. POMODORO TIMER ---
+        let timerInterval;
+        let pomodoroDuration = 25 * 60;
+        let timeLeft = pomodoroDuration; 
+        let isRunning = false;
+        let expectedEndTime = 0;
+        let isWorkMode = true;
+
+        function updateTimerDisplay() {
+            const m = Math.floor(timeLeft / 60);
+            const s = timeLeft % 60;
+            document.getElementById('timerDisplay').innerText = 
+                `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+        }
+
+        function togglePomodoroMode() {
+            pauseTimer();
+            isWorkMode = !isWorkMode;
+            pomodoroDuration = isWorkMode ? 25 * 60 : 5 * 60;
+            timeLeft = pomodoroDuration;
+            
+            document.getElementById('timerModeText').innerText = isWorkMode ? "Đang học (25 phút)" : "Nghỉ ngơi (5 phút)";
+            document.getElementById('modeToggleBtn').innerText = isWorkMode ? "Nghỉ ngơi" : "Học tập";
+            updateTimerDisplay();
+        }
+
+        function timerTick() {
+            const now = Date.now();
+            timeLeft = Math.round((expectedEndTime - now) / 1000);
+            
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                timeLeft = 0;
+                isRunning = false;
+                document.getElementById('startTimerBtn').style.display = 'inline-flex';
+                alert(isWorkMode ? "Đã xong phiên học! Hãy nghỉ ngơi chút nhé." : "Hết giờ nghỉ! Quay lại tập trung thôi.");
+                togglePomodoroMode();
+            }
+            updateTimerDisplay();
+        }
+
+        function startTimer() {
+            if (!isRunning) {
+                isRunning = true;
+                document.getElementById('startTimerBtn').style.display = 'none';
+                expectedEndTime = Date.now() + (timeLeft * 1000);
+                timerInterval = setInterval(timerTick, 1000);
+            }
+        }
+
+        function pauseTimer() {
+            if (isRunning) {
+                clearInterval(timerInterval);
+                isRunning = false;
+                document.getElementById('startTimerBtn').style.display = 'inline-flex';
+            }
+        }
+
+        function resetTimer() {
+            pauseTimer();
+            timeLeft = pomodoroDuration;
+            updateTimerDisplay();
+        }
+
+        // --- 6. HỌC THUẬT & GPA ---
+        const gradeForm = document.getElementById('gradeForm');
+        const gradeList = document.getElementById('gradeList');
+        const gradeTable = document.getElementById('gradeTable');
+        const gradeEmpty = document.getElementById('gradeEmpty');
+        
+        function renderSubjects() {
+            gradeList.innerHTML = '';
+            let totalCredits = 0;
+            let totalWeightedScore = 0;
+
+            if (subjects.length === 0) {
+                gradeTable.style.display = 'none';
+                gradeEmpty.style.display = 'flex';
+            } else {
+                gradeTable.style.display = 'table';
+                gradeEmpty.style.display = 'none';
+                
+                subjects.forEach((sub, index) => {
+                    totalCredits += sub.credits;
+                    totalWeightedScore += (sub.credits * sub.score);
+                    gradeList.innerHTML += `
+                        <tr>
+                            <td style="font-weight: 500;">${sub.name}</td>
+                            <td>${sub.credits}</td>
+                            <td>${sub.score.toFixed(1)}</td>
+                            <td style="text-align: right;">
+                                <button class="btn-icon" onclick="deleteSubject(${index})"><i data-lucide="trash-2" size="16"></i></button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                lucide.createIcons();
+            }
+
+            let gpa = totalCredits > 0 ? (totalWeightedScore / totalCredits).toFixed(2) : '0.00';
+            
+            document.getElementById('totalCredits').innerText = totalCredits;
+            document.getElementById('gpaScore').innerText = gpa;
+            
+            document.getElementById('overviewCredits').innerText = totalCredits;
+            document.getElementById('overviewGpa').innerText = gpa;
+            
+            localStorage.setItem('subjects', JSON.stringify(subjects));
+            updateHeroStats();
+        }
+
+        gradeForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('subjectName').value;
+            const credits = parseFloat(document.getElementById('subjectCredits').value);
+            const score = parseFloat(document.getElementById('subjectScore').value);
+            subjects.push({ name, credits, score });
+            renderSubjects();
+            gradeForm.reset();
+        });
+
+        function deleteSubject(index) {
+            subjects.splice(index, 1);
+            renderSubjects();
+        }
+
+        // --- 7. ĐIỂM RÈN LUYỆN ---
+        function renderTrainingPoints() {
+            const progressFill = document.getElementById('trainingProgressBar');
+            const overviewProgressBar = document.getElementById('overviewProgressBar');
+            const pointsText = document.getElementById('trainingPointsText');
+            const overviewPointsText = document.getElementById('overviewPointsText');
+            
+            let percentage = (trainingPoints / 100) * 100;
+            let widthVal = (percentage > 100 ? 100 : percentage) + '%';
+            
+            progressFill.style.width = widthVal;
+            overviewProgressBar.style.width = widthVal;
+            
+            pointsText.innerText = trainingPoints + '/100';
+            overviewPointsText.innerText = trainingPoints + '/100';
+            document.getElementById('trainingPointsInput').value = trainingPoints;
+            updateHeroStats();
+        }
+
+        function updateTrainingPoints() {
+            let newPoints = parseFloat(document.getElementById('trainingPointsInput').value);
+            if (!isNaN(newPoints)) {
+                if (newPoints > 100) newPoints = 100;
+                if (newPoints < 0) newPoints = 0;
+                trainingPoints = newPoints;
+                localStorage.setItem('trainingPoints', trainingPoints);
+                renderTrainingPoints();
+            }
+        }
+
+        // --- 8. HOẠT ĐỘNG & DẤU ẤN ---
+        const achievementForm = document.getElementById('achievementForm');
+        const achievementListUI = document.getElementById('achievementList');
+        const achieveEmpty = document.getElementById('achieveEmpty');
+
+        function renderAchievements() {
+            achievementListUI.innerHTML = '';
+            
+            if (achievements.length === 0) {
+                achieveEmpty.style.display = 'block';
+            } else {
+                achieveEmpty.style.display = 'none';
+                [...achievements].reverse().forEach((ach, reversedIndex) => {
+                    let realIndex = achievements.length - 1 - reversedIndex;
+                    achievementListUI.innerHTML += `
+                        <div class="timeline-item">
+                            <div class="timeline-title" style="display: flex; justify-content: space-between; align-items: start;">
+                                <span>${ach}</span>
+                                <button class="btn-icon" style="padding: 0; margin-left: 10px;" onclick="deleteAchievement(${realIndex})"><i data-lucide="x" size="14"></i></button>
+                            </div>
+                        </div>
+                    `;
+                });
+                lucide.createIcons();
+            }
+            localStorage.setItem('achievements', JSON.stringify(achievements));
+        }
+
+        achievementForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            achievements.push(document.getElementById('achievementInput').value);
+            renderAchievements();
+            achievementForm.reset();
+        });
+
+        function deleteAchievement(index) {
+            achievements.splice(index, 1);
+            renderAchievements();
+        }
+
+        // Khởi chạy khi load trang
+        renderTodos();
+        renderSubjects();
+        renderTrainingPoints();
+        renderAchievements();
+        updateTimerDisplay();
+
+    </script>
+</body>
+</html>
