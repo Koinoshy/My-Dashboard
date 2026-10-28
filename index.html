@@ -3,36 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personal Command Center</title>
+    <title>Academic Command Center</title>
     
-    <!-- Fonts: Inter for UI/Data, Playfair Display for Editorial Headings -->
+    <!-- Google Fonts: Merriweather (Serif) & Inter (Sans-serif) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
-        /* CSS Variables - Art Direction */
+        /* --- ACADEMIC DESIGN SYSTEM & PALETTE --- */
         :root {
-            --bg-main: #F7F6F2;
-            --surface: #FFFFFF;
-            --text-main: #20231F;
-            --text-muted: #777B74;
-            --accent: #78947B;
-            --accent-hover: #657D68;
-            --accent-light: #E7EEE5;
-            --border: #E8E8E1;
-            --danger: #D96C6C;
+            --primary: #1C5240;             /* Xanh lá đậm chủ đạo */
+            --primary-hover: #143E30;
+            --bg-main: #F5F6F3;             /* Nền trang xám kem nhạt */
+            --card-bg: #FFFFFF;             /* Nền thẻ chính */
+            --card-subtle: #E1EAD8;         /* Nền thẻ/khu vực nhấn xanh nhạt 1 */
+            --card-accent: #D1DDCA;         /* Nền thẻ/khu vực nhấn xanh nhạt 2 */
             
-            --radius-lg: 16px;
-            --radius-md: 12px;
-            --radius-sm: 8px;
+            --terracotta: #D96B43;          /* Nhấn Terracotta cho Pomodoro/Cảnh báo */
+            --terracotta-hover: #C25933;
+            --burgundy: #8B263E;            /* Nhấn đỏ Burgundy */
             
-            --shadow-subtle: 0 4px 24px rgba(32, 35, 31, 0.03);
+            --text-main: #1F2421;           /* Màu chữ chính */
+            --text-muted: #626863;          /* Màu chữ phụ */
+            --border: #E2E6DF;              /* Viền thẻ nhẹ nhàng */
+            
+            --radius: 12px;                 /* Bo góc đồng bộ 12px */
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Đổ bóng có chiều sâu */
             --transition: 200ms ease;
-            
             --sidebar-width: 260px;
         }
 
@@ -51,15 +52,17 @@
             min-height: 100vh;
         }
 
-        h1, h2, h3, .serif {
-            font-family: 'Playfair Display', serif;
-            font-weight: 600;
+        /* Typography System */
+        h1, h2, h3, .serif-heading {
+            font-family: 'Merriweather', serif;
+            font-weight: 700;
+            color: var(--primary);
         }
 
         /* --- SIDEBAR NAVIGATION --- */
         .sidebar {
             width: var(--sidebar-width);
-            background-color: var(--surface);
+            background-color: var(--card-bg);
             border-right: 1px solid var(--border);
             padding: 2rem 1.5rem;
             display: flex;
@@ -67,12 +70,13 @@
             position: fixed;
             height: 100vh;
             z-index: 100;
+            box-shadow: 2px 0 12px rgba(0, 0, 0, 0.03);
         }
 
         .logo {
             font-size: 1.25rem;
-            color: var(--accent);
-            margin-bottom: 3rem;
+            color: var(--primary);
+            margin-bottom: 2.5rem;
             display: flex;
             align-items: center;
             gap: 0.75rem;
@@ -88,11 +92,10 @@
         .nav-item {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem 1rem;
-            border-radius: var(--radius-sm);
+            gap: 0.85rem;
+            padding: 0.85rem 1rem;
+            border-radius: var(--radius);
             color: var(--text-muted);
-            text-decoration: none;
             font-weight: 500;
             transition: var(--transition);
             cursor: pointer;
@@ -100,144 +103,156 @@
         }
 
         .nav-item:hover {
-            background-color: #F0EFEA;
-            color: var(--text-main);
+            background-color: var(--card-subtle);
+            color: var(--primary);
         }
 
-        /* Trang thai Active cua Menu Item */
+        /* Active Menu Item: Nền xanh đậm #1C5240, chữ trắng */
         .nav-item.active {
-            background-color: var(--accent-light);
-            color: var(--accent);
+            background-color: var(--primary);
+            color: #FFFFFF;
             font-weight: 600;
+            box-shadow: 0 4px 10px rgba(28, 82, 64, 0.2);
         }
 
-        /* --- MAIN LAYOUT --- */
+        /* --- MAIN LAYOUT & GRID --- */
         .main-content {
             margin-left: var(--sidebar-width);
             flex: 1;
-            padding: 2.5rem 4rem;
+            padding: 2.5rem 3rem;
             max-width: 1400px;
         }
 
-        /* --- HEADER --- */
         .top-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
         }
 
         .greeting-section .date {
             color: var(--text-muted);
-            font-size: 0.875rem;
-            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+            margin-bottom: 0.35rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            font-weight: 600;
         }
 
         .greeting-section h1 {
-            font-size: 2.5rem;
-            color: var(--text-main);
+            font-size: 2.25rem;
+            line-height: 1.2;
         }
 
         .hero-stats {
             display: flex;
-            gap: 2rem;
+            gap: 1.5rem;
         }
 
-        .stat-item {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
+        .stat-card {
+            background: var(--card-subtle);
+            padding: 0.75rem 1.25rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--card-accent);
+            text-align: right;
+            min-width: 110px;
         }
 
         .stat-value {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--accent);
-            font-family: 'Playfair Display', serif;
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--primary);
+            font-family: 'Inter', sans-serif;
         }
 
         .stat-label {
             font-size: 0.75rem;
             color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            font-weight: 600;
         }
 
-        /* --- TAB CONTENT DISPLAY LOGIC --- */
+        /* --- TAB CONTENT & ANIMATION --- */
         .tab-content {
-            display: none; /* An tat ca cac tab mac dinh */
+            display: none;
         }
 
         .tab-content.active {
-            display: block; /* Chi hien thi tab co class active */
+            display: block;
             animation: fadeIn 220ms ease-in-out;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(4px); }
+            from { opacity: 0; transform: translateY(6px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- GRID & CARDS --- */
+        /* Grid Layout với Gap 20px đồng bộ */
         .dashboard-grid {
             display: grid;
             grid-template-columns: repeat(12, 1fr);
-            gap: 1.5rem;
+            gap: 20px;
         }
 
+        /* --- CARD STYLE (Layering & Shadow) --- */
         .card {
-            background: var(--surface);
+            background-color: var(--card-bg);
             border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 1.75rem;
-            box-shadow: var(--shadow-subtle);
+            border-radius: var(--radius);
+            padding: 24px; /* Padding trong thẻ 24px */
+            box-shadow: var(--shadow);
             display: flex;
             flex-direction: column;
+            transition: var(--transition);
+        }
+
+        .card-layered {
+            background-color: var(--card-subtle);
+            border: 1px solid var(--card-accent);
         }
 
         .card-header {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .card-title {
-            font-size: 1.25rem;
-            color: var(--text-main);
+            font-size: 1.2rem;
         }
 
-        /* Span Helpers */
+        /* Grid Span Helpers */
         .col-span-12 { grid-column: span 12; }
         .col-span-8 { grid-column: span 8; }
         .col-span-6 { grid-column: span 6; }
         .col-span-4 { grid-column: span 4; }
 
-        /* --- UI COMPONENTS --- */
+        /* --- FORM ELEMENTS & BUTTONS --- */
         input, select {
             width: 100%;
             padding: 0.75rem 1rem;
             border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            font-family: inherit;
-            font-size: 0.875rem;
+            border-radius: var(--radius);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
             outline: none;
             transition: var(--transition);
             background-color: var(--bg-main);
+            color: var(--text-main);
         }
 
         input:focus {
-            border-color: var(--accent);
-            background-color: var(--surface);
+            border-color: var(--primary);
+            background-color: var(--card-bg);
+            box-shadow: 0 0 0 3px rgba(28, 82, 64, 0.1);
         }
 
         button {
             padding: 0.75rem 1.25rem;
-            border-radius: var(--radius-sm);
-            font-family: inherit;
-            font-weight: 500;
+            border-radius: var(--radius);
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
             font-size: 0.875rem;
             cursor: pointer;
             border: none;
@@ -248,15 +263,18 @@
             gap: 0.5rem;
         }
 
+        /* Primary Button: Màu xanh đậm #1C5240 */
         .btn-primary {
-            background-color: var(--accent);
-            color: white;
+            background-color: var(--primary);
+            color: #FFFFFF;
         }
 
         .btn-primary:hover {
-            background-color: var(--accent-hover);
+            background-color: var(--primary-hover);
+            box-shadow: 0 4px 8px rgba(28, 82, 64, 0.2);
         }
 
+        /* Secondary Button */
         .btn-secondary {
             background-color: var(--bg-main);
             color: var(--text-main);
@@ -264,16 +282,29 @@
         }
 
         .btn-secondary:hover {
-            background-color: var(--border);
+            background-color: var(--card-accent);
+            border-color: var(--primary);
         }
-        
+
+        /* Terracotta Button (Dùng cho nút Dừng / Cảnh báo) */
+        .btn-terracotta {
+            background-color: var(--terracotta);
+            color: #FFFFFF;
+        }
+
+        .btn-terracotta:hover {
+            background-color: var(--terracotta-hover);
+        }
+
         .btn-icon {
             padding: 0.5rem;
             background: transparent;
             color: var(--text-muted);
+            border-radius: var(--radius);
         }
+        
         .btn-icon:hover {
-            color: var(--danger);
+            color: var(--burgundy);
             background: #FDF2F2;
         }
 
@@ -308,105 +339,111 @@
             align-items: center;
             padding: 1rem;
             border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            background: var(--surface);
+            border-radius: var(--radius);
+            background: var(--card-bg);
             transition: var(--transition);
         }
 
         .list-item:hover {
-            border-color: var(--accent-light);
+            border-color: var(--card-accent);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
         }
 
         .task-info {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.85rem;
         }
 
         .task-date {
             font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--accent);
-            background: var(--accent-light);
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
+            font-weight: 700;
+            color: var(--primary);
+            background: var(--card-subtle);
+            padding: 0.3rem 0.6rem;
+            border-radius: 6px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.875rem;
+            font-size: 0.9rem;
         }
 
         th, td {
             text-align: left;
-            padding: 1rem 0.5rem;
+            padding: 0.85rem 0.5rem;
             border-bottom: 1px solid var(--border);
         }
 
         th {
             color: var(--text-muted);
-            font-weight: 500;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
         }
 
         .gpa-summary {
             display: flex;
             justify-content: space-between;
             margin-top: 1.5rem;
-            padding-top: 1.5rem;
+            padding-top: 1.25rem;
             border-top: 1px dashed var(--border);
         }
 
         .gpa-score {
-            font-size: 1.5rem;
-            color: var(--accent);
-            font-family: 'Playfair Display', serif;
+            font-size: 1.75rem;
+            color: var(--primary);
+            font-weight: 700;
         }
 
-        /* Pomodoro */
+        /* --- POMODORO FEATURE (Terracotta Highlights) --- */
         .timer-display {
-            font-size: 3.5rem;
+            font-size: 3.75rem;
             font-family: 'Inter', sans-serif;
-            font-weight: 300;
+            font-weight: 700;
             text-align: center;
-            color: var(--text-main);
-            margin: 1rem 0;
+            color: var(--terracotta); /* Chữ số màu Terracotta làm điểm nhấn */
+            margin: 0.75rem 0 1.25rem 0;
             font-variant-numeric: tabular-nums;
+            letter-spacing: -1px;
         }
 
         .timer-mode {
             text-align: center;
             font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--accent);
-            font-weight: 600;
+            letter-spacing: 1.5px;
+            color: var(--primary);
+            font-weight: 700;
         }
 
-        /* Progress Bar */
+        /* Progress Bar Layering */
         .progress-bg {
-            background-color: var(--bg-main);
+            background-color: var(--card-subtle);
             border-radius: 20px;
             height: 12px;
             width: 100%;
             margin: 1rem 0;
             overflow: hidden;
+            border: 1px solid var(--card-accent);
         }
 
         .progress-fill {
-            background-color: var(--accent);
+            background-color: var(--primary);
             height: 100%;
             width: 0%;
             transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Timeline */
+        /* Timeline Items */
         .timeline-item {
-            border-left: 2px solid var(--border);
+            border-left: 2px solid var(--card-accent);
             padding-left: 1.25rem;
             position: relative;
             margin-bottom: 1.25rem;
         }
+        
         .timeline-item::before {
             content: '';
             position: absolute;
@@ -415,23 +452,12 @@
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: var(--accent);
+            background: var(--primary);
         }
-        .timeline-title { font-weight: 500; margin-bottom: 0.25rem; }
+        
+        .timeline-title { font-weight: 600; }
 
-        /* Quick Action Jump Cards */
-        .quick-card {
-            padding: 1.25rem;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            background: var(--surface);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            gap: 1rem;
-        }
-
-        /* Responsive */
+        /* Responsive Breakpoints */
         @media (max-width: 1024px) {
             .col-span-8, .col-span-6, .col-span-4 { grid-column: span 12; }
             .main-content { padding: 2rem; }
@@ -447,9 +473,9 @@
                 border-right: none;
                 border-bottom: 1px solid var(--border);
             }
-            .nav-list { flex-direction: row; overflow-x: auto; padding-bottom: 0.5rem; }
+            .nav-list { flex-direction: row; overflow-x: auto; }
             .nav-item { white-space: nowrap; }
-            .main-content { margin-left: 0; padding: 1.5rem; }
+            .main-content { margin-left: 0; padding: 1.25rem; }
             .hero-stats { display: none; }
             .input-group { flex-direction: column; }
         }
@@ -461,7 +487,7 @@
     <aside class="sidebar">
         <div class="logo">
             <i data-lucide="book-open-check"></i>
-            <span class="serif">Workspace</span>
+            <span class="serif-heading" style="font-size: 1.15rem;">Workspace</span>
         </div>
         <ul class="nav-list">
             <li class="nav-item active" data-tab="tab-overview">
@@ -490,41 +516,41 @@
         <header class="top-header">
             <div class="greeting-section">
                 <div class="date" id="currentDate">Đang cập nhật...</div>
-                <h1 id="greetingMsg" class="serif">Personal Command Center</h1>
-                <p style="color: var(--text-muted); margin-top: 0.25rem;">Hệ thống quản lý học tập và dấu ấn cá nhân.</p>
+                <h1 id="greetingMsg">Personal Command Center</h1>
+                <p style="color: var(--text-muted); margin-top: 0.25rem; font-size: 0.95rem;">Hệ thống quản lý học tập và phát triển cá nhân.</p>
             </div>
             
             <div class="hero-stats">
-                <div class="stat-item">
-                    <span class="stat-value" id="statDeadlines">0</span>
-                    <span class="stat-label">Việc sắp tới</span>
+                <div class="stat-card">
+                    <div class="stat-value" id="statDeadlines">0</div>
+                    <div class="stat-label">Deadline</div>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-value" id="statSubjects">0</span>
-                    <span class="stat-label">Môn học</span>
+                <div class="stat-card">
+                    <div class="stat-value" id="statSubjects">0</div>
+                    <div class="stat-label">Môn học</div>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-value" id="statPoints">0%</span>
-                    <span class="stat-label">Rèn luyện</span>
+                <div class="stat-card">
+                    <div class="stat-value" id="statPoints">0%</div>
+                    <div class="stat-label">Rèn luyện</div>
                 </div>
             </div>
         </header>
 
-        <!-- TAB 1: TỔNG QUAN (MẶC ĐỊNH HIỂN THỊ) -->
+        <!-- TAB 1: TỔNG QUAN -->
         <div id="tab-overview" class="tab-content active">
             <div class="dashboard-grid">
                 
                 <!-- Focus Pomodoro Timer -->
-                <div class="card col-span-4">
+                <div class="card col-span-4 card-layered">
                     <div class="card-header">
-                        <h2 class="card-title serif">Focus Session</h2>
+                        <h2 class="card-title serif-heading">Focus Session</h2>
                         <button id="modeToggleBtn" class="btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="togglePomodoroMode()">Nghỉ ngơi</button>
                     </div>
                     <div class="timer-mode" id="timerModeText">Đang học (25 phút)</div>
                     <div class="timer-display" id="timerDisplay">25:00</div>
                     <div style="display: flex; gap: 0.5rem; justify-content: center;">
                         <button id="startTimerBtn" class="btn-primary" onclick="startTimer()"><i data-lucide="play" size="16"></i> Bắt đầu</button>
-                        <button onclick="pauseTimer()" class="btn-secondary"><i data-lucide="pause" size="16"></i> Dừng</button>
+                        <button onclick="pauseTimer()" class="btn-terracotta"><i data-lucide="pause" size="16"></i> Dừng</button>
                         <button onclick="resetTimer()" class="btn-secondary"><i data-lucide="rotate-ccw" size="16"></i> Reset</button>
                     </div>
                 </div>
@@ -532,11 +558,11 @@
                 <!-- Preview Lịch trình gần nhất -->
                 <div class="card col-span-8">
                     <div class="card-header">
-                        <h2 class="card-title serif">Lịch trình sắp tới</h2>
+                        <h2 class="card-title serif-heading">Lịch trình sắp tới</h2>
                         <button class="btn-secondary" onclick="switchTab('tab-schedule')">Xem tất cả →</button>
                     </div>
                     <div id="overviewScheduleEmpty" class="empty-state">
-                        <i data-lucide="calendar-check" size="32" color="var(--border)"></i>
+                        <i data-lucide="calendar-check" size="32" color="var(--card-accent)"></i>
                         <p>Không có deadline nào sắp tới.</p>
                     </div>
                     <ul class="list-container" id="overviewScheduleList"></ul>
@@ -545,30 +571,30 @@
                 <!-- Quick Status Cards -->
                 <div class="card col-span-6">
                     <div class="card-header">
-                        <h2 class="card-title serif">Kết quả học tập</h2>
+                        <h2 class="card-title serif-heading">Kết quả học tập</h2>
                         <button class="btn-secondary" onclick="switchTab('tab-academic')">Chi tiết →</button>
                     </div>
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <div>
-                            <div style="color: var(--text-muted); font-size: 0.875rem;">Điểm trung bình tích lũy</div>
+                            <div style="color: var(--text-muted); font-size: 0.85rem;">GPA Tích lũy (Hệ 10)</div>
                             <div class="gpa-score" id="overviewGpa">0.00</div>
                         </div>
                         <div style="text-align: right;">
-                            <div style="color: var(--text-muted); font-size: 0.875rem;">Tổng tín chỉ</div>
-                            <div style="font-size: 1.25rem; font-weight: 600;" id="overviewCredits">0</div>
+                            <div style="color: var(--text-muted); font-size: 0.85rem;">Tổng tín chỉ</div>
+                            <div style="font-size: 1.35rem; font-weight: 700; color: var(--primary);" id="overviewCredits">0</div>
                         </div>
                     </div>
                 </div>
 
                 <div class="card col-span-6">
                     <div class="card-header">
-                        <h2 class="card-title serif">Rèn luyện & Dấu ấn</h2>
+                        <h2 class="card-title serif-heading">Tiến độ rèn luyện</h2>
                         <button class="btn-secondary" onclick="switchTab('tab-portfolio')">Quản lý →</button>
                     </div>
                     <div>
-                        <div style="display: flex; justify-content: space-between; font-size: 0.875rem; margin-bottom: 0.5rem;">
-                            <span>Điểm rèn luyện hiện tại</span>
-                            <span id="overviewPointsText" style="font-weight: 600; color: var(--accent);">0/100</span>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.5rem;">
+                            <span style="color: var(--text-muted);">Mục tiêu: 100 điểm</span>
+                            <span id="overviewPointsText" style="font-weight: 700; color: var(--primary);">0/100</span>
                         </div>
                         <div class="progress-bg" style="margin: 0;">
                             <div class="progress-fill" id="overviewProgressBar"></div>
@@ -579,11 +605,11 @@
             </div>
         </div>
 
-        <!-- TAB 2: LỊCH TRÌNH (MẶC ĐỊNH ẨN) -->
+        <!-- TAB 2: LỊCH TRÌNH -->
         <div id="tab-schedule" class="tab-content">
             <div class="card col-span-12">
                 <div class="card-header">
-                    <h2 class="card-title serif">Quản lý Lịch trình & Deadline</h2>
+                    <h2 class="card-title serif-heading">Quản lý Lịch trình & Deadline</h2>
                 </div>
                 <form id="todoForm" class="input-group">
                     <input type="date" id="todoDate" required style="flex: 1;">
@@ -591,28 +617,28 @@
                     <button type="submit" class="btn-primary"><i data-lucide="plus" size="16"></i> Thêm mới</button>
                 </form>
                 <div id="todoEmpty" class="empty-state">
-                    <i data-lucide="calendar-check" size="32" color="var(--border)"></i>
+                    <i data-lucide="calendar-check" size="32" color="var(--card-accent)"></i>
                     <p>Chưa có lịch trình nào được lưu.</p>
                 </div>
                 <ul class="list-container" id="todoList" style="margin-top: 1rem;"></ul>
             </div>
         </div>
 
-        <!-- TAB 3: HỌC THUẬT (MẶC ĐỊNH ẨN) -->
+        <!-- TAB 3: HỌC THUẬT -->
         <div id="tab-academic" class="tab-content">
             <div class="card col-span-12">
                 <div class="card-header">
-                    <h2 class="card-title serif">Bảng điểm & Kết quả Học tập (GPA)</h2>
+                    <h2 class="card-title serif-heading">Bảng điểm & Kết quả Học tập (GPA)</h2>
                 </div>
                 <form id="gradeForm" class="input-group">
                     <input type="text" id="subjectName" placeholder="Tên môn học (VD: Giải phẫu ngực, Vi sinh...)" required style="flex: 2;">
-                    <input type="number" id="subjectCredits" placeholder="Số tín chỉ" min="1" required style="flex: 1;">
+                    <input type="number" id="subjectCredits" placeholder="Tín chỉ" min="1" required style="flex: 1;">
                     <input type="number" id="subjectScore" placeholder="Điểm (Hệ 10)" min="0" max="10" step="0.1" required style="flex: 1;">
                     <button type="submit" class="btn-primary"><i data-lucide="plus" size="16"></i> Lưu môn</button>
                 </form>
                 
                 <div id="gradeEmpty" class="empty-state">
-                    <i data-lucide="book-x" size="32" color="var(--border)"></i>
+                    <i data-lucide="book-x" size="32" color="var(--card-accent)"></i>
                     <p>Chưa có dữ liệu môn học nào.</p>
                 </div>
                 
@@ -630,27 +656,27 @@
                 
                 <div class="gpa-summary">
                     <div>
-                        <div style="color: var(--text-muted); font-size: 0.875rem;">Tổng số tín chỉ đã tích lũy</div>
-                        <div style="font-weight: 600; font-size: 1.25rem;" id="totalCredits">0</div>
+                        <div style="color: var(--text-muted); font-size: 0.85rem;">Tổng số tín chỉ tích lũy</div>
+                        <div style="font-weight: 700; font-size: 1.35rem; color: var(--primary);" id="totalCredits">0</div>
                     </div>
                     <div style="text-align: right;">
-                        <div style="color: var(--text-muted); font-size: 0.875rem;">GPA Tích lũy (Hệ 10)</div>
+                        <div style="color: var(--text-muted); font-size: 0.85rem;">GPA Tích lũy (Hệ 10)</div>
                         <div class="gpa-score" id="gpaScore">0.00</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- TAB 4: PORTFOLIO (MẶC ĐỊNH ẨN) -->
+        <!-- TAB 4: PORTFOLIO -->
         <div id="tab-portfolio" class="tab-content">
             <div class="dashboard-grid">
                 
                 <!-- Điểm rèn luyện -->
                 <div class="card col-span-6">
                     <div class="card-header">
-                        <h2 class="card-title serif">Điểm Rèn Luyện</h2>
+                        <h2 class="card-title serif-heading">Điểm Rèn Luyện</h2>
                     </div>
-                    <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1rem;">Cập nhật điểm rèn luyện trong học kỳ</p>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">Cập nhật điểm rèn luyện tích lũy</p>
                     
                     <div class="input-group">
                         <input type="number" id="trainingPointsInput" placeholder="Nhập điểm rèn luyện..." min="0" max="100">
@@ -660,16 +686,16 @@
                     <div class="progress-bg">
                         <div class="progress-fill" id="trainingProgressBar"></div>
                     </div>
-                    <div style="display: flex; justify-content: space-between; font-size: 0.875rem; font-weight: 500;">
+                    <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600;">
                         <span>0</span>
-                        <span id="trainingPointsText" style="color: var(--accent);">0/100</span>
+                        <span id="trainingPointsText" style="color: var(--primary);">0/100</span>
                     </div>
                 </div>
 
                 <!-- Dấu ấn ngoại khóa -->
                 <div class="card col-span-6">
                     <div class="card-header">
-                        <h2 class="card-title serif">Hoạt động & Dấu ấn</h2>
+                        <h2 class="card-title serif-heading">Hoạt động & Dấu ấn</h2>
                     </div>
                     <form id="achievementForm" class="input-group">
                         <input type="text" id="achievementInput" placeholder="Dự án, CLB, sự kiện ngoại khóa..." required>
@@ -690,15 +716,13 @@
 
     <!-- CORE JAVASCRIPT LOGIC -->
     <script>
-        // Khởi tạo Icon
         lucide.createIcons();
 
-        // --- 1. XỬ LÝ CHUYỂN TAB (TAB NAVIGATION LOGIC) ---
+        // 1. TAB NAVIGATION SYSTEM
         const navItems = document.querySelectorAll('.nav-item');
         const tabContents = document.querySelectorAll('.tab-content');
 
         function switchTab(targetTabId) {
-            // Xóa class active ở tất cả nav-item
             navItems.forEach(item => {
                 if (item.getAttribute('data-tab') === targetTabId) {
                     item.classList.add('active');
@@ -707,7 +731,6 @@
                 }
             });
 
-            // Ẩn tất cả thẻ tab-content và chỉ hiện tab được chọn
             tabContents.forEach(tab => {
                 if (tab.id === targetTabId) {
                     tab.classList.add('active');
@@ -716,11 +739,9 @@
                 }
             });
 
-            // Re-render icon
             lucide.createIcons();
         }
 
-        // Đăng ký sự kiện Click cho menu
         navItems.forEach(item => {
             item.addEventListener('click', function() {
                 const targetTab = this.getAttribute('data-tab');
@@ -728,7 +749,7 @@
             });
         });
 
-        // --- 2. HEADER THỜI GIAN THỰC ---
+        // 2. HEADER THỜI GIAN THỰC
         function updateHeader() {
             const now = new Date();
             const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -742,7 +763,7 @@
         }
         updateHeader();
 
-        // --- 3. QUẢN LÝ DỮ LIỆU & STATE ---
+        // 3. LOCAL STORAGE DATA MANAGEMENT
         let subjects = JSON.parse(localStorage.getItem('subjects')) || [];
         let trainingPoints = localStorage.getItem('trainingPoints') || 0;
         let achievements = JSON.parse(localStorage.getItem('achievements')) || [];
@@ -758,7 +779,7 @@
             document.getElementById('statPoints').innerText = `${trainingPoints}%`;
         }
 
-        // --- 4. LỊCH TRÌNH & DEADLINE ---
+        // 4. LỊCH TRÌNH & DEADLINE
         const todoForm = document.getElementById('todoForm');
         const todoListUI = document.getElementById('todoList');
         const todoEmpty = document.getElementById('todoEmpty');
@@ -777,7 +798,6 @@
                 todoEmpty.style.display = 'none';
                 overviewScheduleEmpty.style.display = 'none';
                 
-                // Sắp xếp ngày gần nhất lên đầu
                 todos.sort((a, b) => new Date(a.date) - new Date(b.date));
                 
                 todos.forEach((task, index) => {
@@ -787,8 +807,8 @@
                     let today = new Date();
                     today.setHours(0,0,0,0);
                     let isOverdue = dateObj < today;
-                    let textStyle = isOverdue ? 'color: var(--danger);' : '';
-                    let dateBg = isOverdue ? 'background: #FDF2F2; color: var(--danger);' : '';
+                    let textStyle = isOverdue ? 'color: var(--burgundy);' : '';
+                    let dateBg = isOverdue ? 'background: #FDF2F2; color: var(--burgundy);' : '';
 
                     const itemHTML = `
                         <li class="list-item">
@@ -801,7 +821,7 @@
                     `;
                     
                     todoListUI.innerHTML += itemHTML;
-                    if (index < 3) { // Chỉ hiện tối đa 3 cái ở trang Tổng quan
+                    if (index < 3) {
                         overviewScheduleList.innerHTML += itemHTML;
                     }
                 });
@@ -825,7 +845,7 @@
             renderTodos();
         }
 
-        // --- 5. POMODORO TIMER ---
+        // 5. POMODORO TIMER
         let timerInterval;
         let pomodoroDuration = 25 * 60;
         let timeLeft = pomodoroDuration; 
@@ -889,7 +909,7 @@
             updateTimerDisplay();
         }
 
-        // --- 6. HỌC THUẬT & GPA ---
+        // 6. GPA CALCULATOR
         const gradeForm = document.getElementById('gradeForm');
         const gradeList = document.getElementById('gradeList');
         const gradeTable = document.getElementById('gradeTable');
@@ -951,7 +971,7 @@
             renderSubjects();
         }
 
-        // --- 7. ĐIỂM RÈN LUYỆN ---
+        // 7. TRAINING POINTS
         function renderTrainingPoints() {
             const progressFill = document.getElementById('trainingProgressBar');
             const overviewProgressBar = document.getElementById('overviewProgressBar');
@@ -981,7 +1001,7 @@
             }
         }
 
-        // --- 8. HOẠT ĐỘNG & DẤU ẤN ---
+        // 8. ACHIEVEMENTS & PORTFOLIO
         const achievementForm = document.getElementById('achievementForm');
         const achievementListUI = document.getElementById('achievementList');
         const achieveEmpty = document.getElementById('achieveEmpty');
@@ -1021,7 +1041,7 @@
             renderAchievements();
         }
 
-        // Khởi chạy khi load trang
+        // INITIALIZATION
         renderTodos();
         renderSubjects();
         renderTrainingPoints();
