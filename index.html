@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1C5240;
+            --bg-light: #E1EAD8;
+            --card-bg: #FFFFFF;
+            --accent-light: #D1DDCA;
+            --highlight: #8B0000; /* Burgundy */
+            --terracotta: #E2725B;
+            --text-main: #2C3E50;
+            --text-muted: #6C7A89;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 2rem;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Lora', serif;
+            color: var(--primary);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--primary);
+        }
+
+        /* Forms & Inputs */
+        .input-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        input, button {
+            padding: 0.75rem;
+            border: 1px solid var(--accent-light);
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        input {
+            flex: 1;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            border-color: var(--primary);
+        }
+
+        button {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+
+        button:hover {
+            background-color: #144030;
+        }
+        
+        button:active {
+            transform: scale(0.98);
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 1rem;
+            border-bottom: 1px solid var(--accent-light);
+        }
+
+        th {
+            background-color: var(--bg-light);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .delete-btn {
+            background-color: transparent;
+            color: var(--highlight);
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .delete-btn:hover {
+            background-color: #fde8e8;
+        }
+
+        /* Stats */
+        .stats-container {
+            display: flex;
+            justify-content: space-between;
+            background-color: var(--accent-light);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        /* Progress Bar */
+        .progress-wrapper {
+            background-color: var(--bg-light);
+            border-radius: 20px;
+            height: 24px;
+            width: 100%;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background-color: var(--terracotta);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease-in-out;
+        }
+
+        /* Achievements List */
+        .achievement-list {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .achievement-list li {
+            background-color: var(--bg-light);
+            margin-bottom: 0.5rem;
+            padding: 1rem;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid var(--highlight);
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                grid-template-columns: 1fr;
+            }
+            .input-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Bảng Theo Dõi Học Tập & Rèn Luyện</h1>
+        <p>Ghi nhận tiến độ và các dấu ấn cá nhân</p>
+    </div>
+
+    <div class="dashboard-container">
+        
+        <!-- Cột Trái: Bảng điểm & GPA -->
+        <div class="card">
+            <h2>Kết Quả Học Tập (GPA)</h2>
+            <p style="color: var(--text-muted); margin-bottom: 1rem; font-size: 0.9rem;">Thêm các môn học như Giải phẫu, Vi sinh, v.v. để theo dõi điểm số</p>
+            
+            <form id="gradeForm" class="input-group">
+                <input type="text" id="subjectName" placeholder="Tên môn học (VD: Giải phẫu ngực)" required>
+                <input type="number" id="subjectCredits" placeholder="Số tín chỉ" min="1" required style="flex: 0.5">
+                <input type="number" id="subjectScore" placeholder="Điểm (Hệ 10)" min="0" max="10" step="0.1" required style="flex: 0.5">
+                <button type="submit">Thêm</button>
+            </form>
+
+            <table id="gradeTable">
+                <thead>
+                    <tr>
+                        <th>Môn học</th>
+                        <th>Tín chỉ</th>
+                        <th>Điểm</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody id="gradeList">
+                    <!-- Dữ liệu sẽ được render ở đây -->
+                </tbody>
+            </table>
+
+            <div class="stats-container">
+                <span>Tổng tín chỉ: <span id="totalCredits">0</span></span>
+                <span>GPA Hệ 10: <span id="gpaScore">0.00</span></span>
+            </div>
+        </div>
+
+        <!-- Cột Phải: Điểm rèn luyện & Thành tựu -->
+        <div class="right-column">
+            
+            <!-- Điểm Rèn Luyện -->
+            <div class="card" style="margin-bottom: 2rem;">
+                <h2>Điểm Rèn Luyện</h2>
+                <div class="input-group" style="margin-top: 1rem;">
+                    <input type="number" id="trainingPointsInput" placeholder="Cập nhật điểm rèn luyện hiện tại..." min="0" max="100">
+                    <button onclick="updateTrainingPoints()">Cập nhật</button>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-weight: 500;">
+                    <span>Tiến độ đạt mốc Tốt (100đ)</span>
+                    <span id="trainingPointsText" style="color: var(--terracotta);">0/100</span>
+                </div>
+                <div class="progress-wrapper">
+                    <div class="progress-fill" id="trainingProgressBar"></div>
+                </div>
+            </div>
+
+            <!-- Thành tựu & Hoạt động -->
+            <div class="card">
+                <h2>Hoạt Động & Dấu Ấn</h2>
+                <p style="color: var(--text-muted); margin-bottom: 1rem; font-size: 0.9rem;">Ghi nhận các dự án ngoại khóa, tổ chức sự kiện, v.v.</p>
+                
+                <form id="achievementForm" class="input-group">
+                    <input type="text" id="achievementInput" placeholder="Điều bạn vừa đạt được là gì?" required>
+                    <button type="submit">Lưu</button>
+                </form>
+
+                <ul class="achievement-list" id="achievementList">
+                    <!-- Dữ liệu sẽ được render ở đây -->
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Khởi tạo dữ liệu từ LocalStorage hoặc mảng rỗng
+        let subjects = JSON.parse(localStorage.getItem('subjects')) || [];
+        let trainingPoints = localStorage.getItem('trainingPoints') || 0;
+        let achievements = JSON.parse(localStorage.getItem('achievements')) || [];
+
+        // --- QUẢN LÝ ĐIỂM SỐ ---
+        const gradeForm = document.getElementById('gradeForm');
+        const gradeList = document.getElementById('gradeList');
+        
+        function renderSubjects() {
+            gradeList.innerHTML = '';
+            let totalCredits = 0;
+            let totalWeightedScore = 0;
+
+            subjects.forEach((sub, index) => {
+                totalCredits += sub.credits;
+                totalWeightedScore += (sub.credits * sub.score);
+
+                gradeList.innerHTML += `
+                    <tr>
+                        <td>${sub.name}</td>
+                        <td>${sub.credits}</td>
+                        <td><strong>${sub.score}</strong></td>
+                        <td><button class="delete-btn" onclick="deleteSubject(${index})">Xóa</button></td>
+                    </tr>
+                `;
+            });
+
+            document.getElementById('totalCredits').innerText = totalCredits;
+            let gpa = totalCredits > 0 ? (totalWeightedScore / totalCredits).toFixed(2) : '0.00';
+            document.getElementById('gpaScore').innerText = gpa;
+            
+            localStorage.setItem('subjects', JSON.stringify(subjects));
+        }
+
+        gradeForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('subjectName').value;
+            const credits = parseFloat(document.getElementById('subjectCredits').value);
+            const score = parseFloat(document.getElementById('subjectScore').value);
+
+            subjects.push({ name, credits, score });
+            renderSubjects();
+            gradeForm.reset();
+        });
+
+        function deleteSubject(index) {
+            subjects.splice(index, 1);
+            renderSubjects();
+        }
+
+        // --- QUẢN LÝ ĐIỂM RÈN LUYỆN ---
+        function renderTrainingPoints() {
+            const progressFill = document.getElementById('trainingProgressBar');
+            const pointsText = document.getElementById('trainingPointsText');
+            
+            let percentage = (trainingPoints / 100) * 100;
+            if(percentage > 100) percentage = 100;
+
+            progressFill.style.width = percentage + '%';
+            pointsText.innerText = trainingPoints + '/100';
+            document.getElementById('trainingPointsInput').value = trainingPoints;
+        }
+
+        function updateTrainingPoints() {
+            const newPoints = document.getElementById('trainingPointsInput').value;
+            if (newPoints !== '') {
+                trainingPoints = newPoints;
+                localStorage.setItem('trainingPoints', trainingPoints);
+                renderTrainingPoints();
+            }
+        }
+
+        // --- QUẢN LÝ THÀNH TỰU ---
+        const achievementForm = document.getElementById('achievementForm');
+        const achievementListUI = document.getElementById('achievementList');
+
+        function renderAchievements() {
+            achievementListUI.innerHTML = '';
+            achievements.forEach((ach, index) => {
+                achievementListUI.innerHTML += `
+                    <li>
+                        <span>${ach}</span>
+                        <button class="delete-btn" onclick="deleteAchievement(${index})">✕</button>
+                    </li>
+                `;
+            });
+            localStorage.setItem('achievements', JSON.stringify(achievements));
+        }
+
+        achievementForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const text = document.getElementById('achievementInput').value;
+            achievements.push(text);
+            renderAchievements();
+            achievementForm.reset();
+        });
+
+        function deleteAchievement(index) {
+            achievements.splice(index, 1);
+            renderAchievements();
+        }
+
+        // Khởi chạy khi load trang
+        renderSubjects();
+        renderTrainingPoints();
+        renderAchievements();
+    </script>
+</body>
+</html>
